@@ -1,11 +1,20 @@
+-- local prettier = {
+--     formatCommand = [[prettierd --stdin-filepath ${INPUT} ${--tab-width:tab_width}]],
+--     formatStdin = true,
+-- }
+
 local servers = {
     clangd = {},
     tsserver = {
         completions = {
             completefunctioncalls = true
-        }
+        },
+        -- languages = {
+        --     typescript = { prettier },
+        --     yaml = { prettier },
+        -- },
     },
-    eslint = {},
+    -- eslint = {},
     lua_ls = {
         Lua = {
             telemetry = {
@@ -44,6 +53,14 @@ require('mason-lspconfig').setup({
     automatic_installation = true,
 })
 
+require("lsp-format").setup({
+    -- typescript = { tab_width = 2 },
+    -- javascript = { tab_width = 2 },
+    -- json = { tab_width = 2 },
+})
+-- Perform a sync version of format on :wq
+vim.cmd([[cabbrev wq execute "Format sync" <bar> wq]])
+
 local ok_lspconfig, lspconfig = pcall(require, 'lspconfig')
 if not ok_lspconfig then
     print('ERROR: failed to require: lspconfig')
@@ -72,11 +89,11 @@ if not ok then
 end
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.formatting.eslint,
+        null_ls.builtins.diagnostics.eslint_d,
+        null_ls.builtins.code_actions.eslint_d,
+        null_ls.builtins.formatting.eslint_d,
         null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.prettierd,
         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--single-quotes' } }),
         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--no-semi', '--single-quotes' } }),
         --null_ls.builtins.completion.spell,

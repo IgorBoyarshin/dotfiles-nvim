@@ -42,7 +42,7 @@ end
 
 
 local function lsp_highlight_document(client)
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
         vim.api.nvim_exec([[
             augroup lsp_document_highlight
                 autocmd! * <buffer>
@@ -120,9 +120,12 @@ end
 
 
 function M.on_attach(client, bufnr)
+    require("lsp-format").on_attach(client)
+
     if client.name == 'tsserver' then
-        client.resolved_capabilities.document_formatting = false
+        client.server_capabilities.document_formatting = false
     end
+
     lsp_keymaps(bufnr)
     lsp_highlight_document(client)
 end

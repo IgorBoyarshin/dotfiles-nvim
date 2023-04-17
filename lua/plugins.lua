@@ -106,8 +106,8 @@ require("lazy").setup({
                 highlight Comment guifg=#726354
                 highlight Todo gui=bold guifg=#ff1974 guibg=#101418
 
-                highlight GitGutterAdd guibg=#101418 guifg=#88db26
-                highlight GitGutterChange guibg=#101418 guifg=#e8db26
+                highlight GitGutterAdd guibg=#101418 guifg=#88eb26
+                highlight GitGutterChange guibg=#101418 guifg=#d8db26
                 highlight GitGutterDelete guibg=#101418
                 highlight GitGutterChangeDelete guibg=#101418
 
@@ -134,6 +134,7 @@ require("lazy").setup({
             'williamboman/mason-lspconfig.nvim',
             { 'j-hui/fidget.nvim', opts = {} },
             'folke/neodev.nvim',
+            'lukas-reineke/lsp-format.nvim',
         },
     },
 
