@@ -95,8 +95,8 @@ require("lazy").setup({
                 { silent = true, noremap = true, desc = "[t]rouble [l]oclist" })
             vim.keymap.set("n", "<leader>tq", "<cmd>TroubleToggle quickfix<cr>",
                 { silent = true, noremap = true, desc = "[t]rouble [q]uickfix" })
-            vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-                { silent = true, noremap = true, desc = "trouble LSP [R]eferences" })
+            vim.keymap.set("n", "gr", "<cmd>TroubleToggle lsp_references<cr>",
+                { silent = true, noremap = true, desc = "trouble LSP [r]eferences" })
         end,
     },
 

@@ -71,7 +71,7 @@ local function lsp_keymaps(bufnr)
 
     nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
     nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    nmap('gR', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
 
     -- nmap('gl', vim.lsp.diagnostic.show_line_diagnostics({ border = 'rounded' }), 'Show [l]ine diagnostic')
