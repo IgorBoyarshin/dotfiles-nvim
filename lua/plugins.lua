@@ -20,7 +20,7 @@ require("lazy").setup({
     'lukas-reineke/indent-blankline.nvim',
     "nvim-lualine/lualine.nvim",
 
-    { "terrortylor/nvim-comment", event = "VeryLazy" },
+    { "terrortylor/nvim-comment",    event = "VeryLazy" },
 
     { "nvim-tree/nvim-web-devicons", lazy = true },
 
@@ -59,11 +59,13 @@ require("lazy").setup({
         init = function()
             -- Close NvimTree if it is the last open buffer
             vim.api.nvim_create_autocmd("BufEnter", {
-                group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
+                group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
                 pattern = "NvimTree_*",
                 callback = function()
                     local layout = vim.api.nvim_call_function("winlayout", {})
-                    if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
+                    if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then
+                        vim.cmd("confirm quit")
+                    end
                 end
             })
         end,
@@ -90,36 +92,47 @@ require("lazy").setup({
                 delete = { text = ' ▐' },
                 topdelete = { text = ' ▐' },
                 changedelete = { text = ' ▐' },
-
             },
         },
     },
 
     {
-        "lifepillar/vim-gruvbox8",
+        'EdenEast/nightfox.nvim',
         init = function()
-            vim.o.background = "dark"
             vim.cmd([[
-                colorscheme gruvbox8_hard
+                colorscheme duskfox
 
-                highlight Normal guibg=#101418
-                highlight Comment guifg=#726354
-                highlight Todo gui=bold guifg=#ff1974 guibg=#101418
-
-                highlight GitGutterAdd guibg=#101418 guifg=#88eb26
-                highlight GitGutterChange guibg=#101418 guifg=#d8db26
-                highlight GitGutterDelete guibg=#101418
-                highlight GitGutterChangeDelete guibg=#101418
-
-                " highlight BufferDefaultInactive guibg=#101418
-                " highlight BufferDefaultCurrent guibg=#000408
-                " highlight BufferInactive guibg=#101418
-                " highlight BufferCurrent guibg=#000408
-                " highlight TabLineFill guibg=#2c2826
+                highlight BufferCurrent guibg=#232136
+                highlight BufferInactive guibg=#090716
             ]])
-            vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
         end,
     },
+
+    -- {
+    --     "lifepillar/vim-gruvbox8",
+    --     init = function()
+    --         vim.o.background = "dark"
+    --         vim.cmd([[
+    --             colorscheme gruvbox8_hard
+    --
+    --             highlight Normal guibg=#101418
+    --             highlight Comment guifg=#726354
+    --             highlight Todo gui=bold guifg=#ff1974 guibg=#101418
+    --
+    --             highlight GitGutterAdd guibg=#101418 guifg=#88eb26
+    --             highlight GitGutterChange guibg=#101418 guifg=#d8db26
+    --             highlight GitGutterDelete guibg=#101418
+    --             highlight GitGutterChangeDelete guibg=#101418
+    --
+    --             " highlight BufferDefaultInactive guibg=#101418
+    --             " highlight BufferDefaultCurrent guibg=#000408
+    --             " highlight BufferInactive guibg=#101418
+    --             " highlight BufferCurrent guibg=#000408
+    --             " highlight TabLineFill guibg=#2c2826
+    --         ]])
+    --         vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    --     end,
+    -- },
 
     {
         'jose-elias-alvarez/null-ls.nvim',
@@ -132,7 +145,7 @@ require("lazy").setup({
             -- { 'williamboman/mason.nvim', config = true },
             { 'williamboman/mason.nvim', build = ':MasonUpdate' },
             'williamboman/mason-lspconfig.nvim',
-            { 'j-hui/fidget.nvim', opts = {} },
+            { 'j-hui/fidget.nvim',       opts = {} },
             'folke/neodev.nvim',
             'lukas-reineke/lsp-format.nvim',
         },
@@ -151,7 +164,7 @@ require("lazy").setup({
         },
     },
 
-     -- Fast alternative: fzf-lua
+    -- Fast alternative: fzf-lua
     {
         'nvim-telescope/telescope.nvim',
         version = '*',
@@ -220,7 +233,7 @@ require("lazy").setup({
     {
         "dstein64/vim-startuptime",
         cmd = "StartupTime", -- lazy-load on a command
-        init = function() -- init is called during startup. Configuration for vim plugins typically should be set in an init function
+        init = function()    -- init is called during startup. Configuration for vim plugins typically should be set in an init function
             vim.g.startuptime_tries = 10
         end,
     },
