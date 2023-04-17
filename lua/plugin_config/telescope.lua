@@ -1,21 +1,21 @@
-local builtin = require('telescope.builtin')
+local builtin = require("telescope.builtin")
 
 local function fuzzyFindFiles()
-  builtin.grep_string({
-    path_display = { 'smart' },
-    only_sort_text = true,
-    word_match = "-w",
-    search = '',
-  })
+    builtin.grep_string({
+        path_display = { "smart" },
+        only_sort_text = true,
+        word_match = "-w",
+        search = "",
+    })
 end
 
-vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "fuzzy find files" })
 -- vim.keymap.set('n', '<C-f>', builtin.live_grep, {}) -- not fuzzy
-vim.keymap.set('n', '<C-f>', fuzzyFindFiles, {})
-vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>q', builtin.quickfix, {})
-vim.keymap.set('n', '<leader>l', builtin.loclist, {})
+vim.keymap.set("n", "<C-f>", fuzzyFindFiles, { desc = "fuzzy find contents" })
+vim.keymap.set("n", "<leader>h", builtin.help_tags, { desc = "search help" })
+vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "list open buffers" })
+vim.keymap.set("n", "<leader>q", builtin.quickfix, { desc = "open quickfix" })
+vim.keymap.set("n", "<leader>l", builtin.loclist, { desc = "open loclist" })
 -- vim.keymap.set('n', '<leader>/', function()
 --     require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
 --         winblend = 10,
@@ -23,7 +23,7 @@ vim.keymap.set('n', '<leader>l', builtin.loclist, {})
 --     })
 -- end, { desc = '[/] Fuzzily search in current buffer' })
 
-require('telescope').setup({
+require("telescope").setup({
     -- extensions_list = { "themes", "terms" },
     defaults = {
         vimgrep_arguments = {
@@ -72,17 +72,18 @@ require('telescope').setup({
         buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
         mappings = {
             i = {
-                ['<C-j>'] = 'move_selection_next',
-                ['<C-k>'] = 'move_selection_previous',
-                ['<C-u>'] = false,
-                ['<C-d>'] = false,
+                ["<C-j>"] = "move_selection_next",
+                ["<C-k>"] = "move_selection_previous",
+                ["<C-u>"] = false,
+                ["<C-d>"] = false,
                 ["<esc>"] = require("telescope.actions").close,
+                ["<C-q>"] = require("telescope.actions").smart_send_to_qflist,
             },
         },
     },
 })
 
 -- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-pcall(require('telescope').load_extension, 'themes')
-pcall(require('telescope').load_extension, 'terms')
+pcall(require("telescope").load_extension, "fzf")
+pcall(require("telescope").load_extension, "themes")
+pcall(require("telescope").load_extension, "terms")

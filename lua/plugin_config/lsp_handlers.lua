@@ -4,9 +4,9 @@ local M = {}
 function M.setup()
     local signs = {
         { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
+        { name = "DiagnosticSignWarn",  text = "" },
+        { name = "DiagnosticSignHint",  text = "" },
+        { name = "DiagnosticSignInfo",  text = "" },
     }
 
     for _, sign in ipairs(signs) do
@@ -40,18 +40,17 @@ function M.setup()
     })
 end
 
-
-local function lsp_highlight_document(client)
-    if client.server_capabilities.document_highlight then
-        vim.api.nvim_exec([[
-            augroup lsp_document_highlight
-                autocmd! * <buffer>
-                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        ]], false)
-    end
-end
+-- local function lsp_highlight_document(client)
+--     if client.server_capabilities.document_highlight then
+--         vim.api.nvim_exec([[
+--             augroup lsp_document_highlight
+--                 autocmd! * <buffer>
+--                 autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+--                 autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+--             augroup END
+--         ]], false)
+--     end
+-- end
 
 
 local function lsp_keymaps(bufnr)
@@ -81,13 +80,13 @@ local function lsp_keymaps(bufnr)
     nmap(']d', function() vim.diagnostic.goto_next({ border = 'rounded' }) end, 'Goto next [d]iagnostic')
     nmap('<leader>l', function() vim.diagnostic.setloclist() end, 'Set [l]oclist')
 
-    nmap('<leader>F', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end,'LSP [F]ormat')
+    nmap('<leader>F', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, 'LSP [F]ormat')
 
     nmap('<leader>V', function()
         vim.diagnostic.config({ virtual_text = true })
         print('Virtual text is now ON')
     end, 'Turn [V]isual text ON')
-    nmap('<leader>V', function()
+    nmap('<leader>v', function()
         vim.diagnostic.config({ virtual_text = false })
         print('Virtual text is now OFF')
     end, 'Turn [V]isual text OFF')
@@ -127,9 +126,8 @@ function M.on_attach(client, bufnr)
     end
 
     lsp_keymaps(bufnr)
-    lsp_highlight_document(client)
+    -- lsp_highlight_document(client)
 end
-
 
 local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if not ok then

@@ -1,12 +1,14 @@
 require('indent_blankline').setup({
     show_trailing_blankline_indent = false,
+    show_current_context = true,
+    -- show_current_context_start = true,
     vim.cmd([[
-        let g:indent_blankline_show_first_indent_level = v:false 
-        let g:indent_blankline_char_list = ['|', '¦', '┆', '┊'] 
+        let g:indent_blankline_show_first_indent_level = v:false
+        let g:indent_blankline_char_list = ['|', '¦', '┆', '┊']
         let g:indentLine_color_term = 239
         let g:vim_json_conceal = 0
         let g:markdown_syntax_conceal = 0
-    ]])
+    ]]),
 })
 
 
@@ -16,7 +18,7 @@ require('which-key').setup({})
 require('nvim_comment').setup({
     -- NOTE Choose whichever one works for your terminal:
     line_mapping = "<C-/><C-/>", -- normal mode
-    operator_mapping = "<C-/>", -- visual mode
+    operator_mapping = "<C-/>",  -- visual mode
     -- line_mapping = "<C-_><C-_>", -- normal mode
     -- operator_mapping = "<C-_>", -- visual mode
 })

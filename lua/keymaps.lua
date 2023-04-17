@@ -1,14 +1,18 @@
-vim.keymap.set('n', '<leader>r', '<cmd>source ~/.config/nvim/init.lua<cr> <cmd>echo "init.lua reloaded!"<cr>')
+vim.keymap.set('n',
+    '<leader>r',
+    '<cmd>source ~/.config/nvim/init.lua<cr> <cmd>echo "init.lua reloaded!"<cr>',
+    { desc = "[r]eload init.lua" }
+)
 
 
 vim.keymap.set('n', '<leader>s', function()
     pcall(vim.cmd, ':%s/\\s*$//<C-l>')
     print("Removed all trailing whitespaces from the buffer!")
-end)
+end, { desc = "remove trailing [s]paces" })
 vim.keymap.set('n', '<leader>m', function()
-    local ok, res = pcall(vim.cmd, ':%s/\\r//')
+    local _, _ = pcall(vim.cmd, ':%s/\\r//')
     print("Removed all ^M from the buffer!")
-end)
+end, { desc = "remove ^M symbols" })
 
 vim.keymap.set('n', 'gP', 'O<Esc>Vp<cmd>let @+ = @0<cr>')
 vim.keymap.set('n', 'gp', 'o<Esc>Vp<cmd>let @+ = @0<cr>')
@@ -29,8 +33,8 @@ vim.keymap.set('n', '<left>', 'xhP')
 
 vim.keymap.set('n', '<C-y>', 'K')
 
-vim.keymap.set('n', '<C-j>', 'J', { noremap = true } )
-vim.keymap.set('n', '<C-k>', 'kJ', { noremap = true } )
+vim.keymap.set('n', '<C-j>', 'J', { noremap = true })
+vim.keymap.set('n', '<C-k>', 'kJ', { noremap = true })
 
 vim.keymap.set('n', 'H', '^')
 vim.keymap.set('n', 'L', '$')
@@ -47,20 +51,20 @@ vim.keymap.set('i', '<C-w>', '<C-g>u<C-w>')
 
 -- Paste without overriding the buffer
 -- gv highlights whatever was previously selected
-vim.keymap.set('v', 'p', 'pgvy', { noremap = true } )
+vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
 
 -- Spell checking
 -- To correct using suggestions: z=
 vim.keymap.set('n', '<F5>', function()
-    local ok, res = pcall(vim.cmd, ':setlocal spell! spelllang=en<CR>')
+    local _, _ = pcall(vim.cmd, ':setlocal spell! spelllang=en<CR>')
     print('Toggled spellcheck language = EN')
 end)
 vim.keymap.set('n', '<F6>', function()
-    local ok, res = pcall(vim.cmd, ':setlocal spell! spelllang=ru<CR>')
+    local _, _ = pcall(vim.cmd, ':setlocal spell! spelllang=ru<CR>')
     print('Toggled spellcheck language = RU')
 end)
 vim.keymap.set('n', '<F7>', function()
-    local ok, res = pcall(vim.cmd, ':setlocal spell! spelllang=uk<CR>')
+    local _, _ = pcall(vim.cmd, ':setlocal spell! spelllang=uk<CR>')
     print('Toggled spellcheck language = UKR')
 end)
 

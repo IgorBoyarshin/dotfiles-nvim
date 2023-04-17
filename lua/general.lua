@@ -8,7 +8,7 @@ vim.opt.termguicolors = true
 vim.g.mapleader = '\\'
 vim.g.maplocalleader = '\\'
 
-vim.opt.backspace = {'indent', 'eol', 'start'}
+vim.opt.backspace = { 'indent', 'eol', 'start' }
 vim.opt.number = true
 vim.opt.showcmd = true
 vim.opt.autoread = true
@@ -35,6 +35,13 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 0 -- when backspacing, delete by spaces, not by tabs
 vim.opt.expandtab = true
+
+vim.cmd([[
+augroup typescriptindent
+  autocmd FileType typescript setlocal tabstop=2
+  autocmd FileType typescript setlocal shiftwidth=2
+augroup END
+]])
 
 vim.opt.colorcolumn = '80'
 
