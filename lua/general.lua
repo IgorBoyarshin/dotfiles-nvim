@@ -40,7 +40,7 @@ vim.opt.colorcolumn = '80'
 
 vim.cmd([[
     " Highlight them as TODO
-    match Todo /\<NOTE\>\|\<WTF\>\|\<TODO\>\|\<FIX\>\|\<nocheckin\>\|\<FIXME\>/
+    match Todo /\<NOTE\>\|\<WTF\>\|\<TODO\>\|\<FIX\>\|\<XXX\>\|\<nocheckin\>\|\<FIXME\>/
 
     " Allow color schemes to do bright colors without forcing bold.
     if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'

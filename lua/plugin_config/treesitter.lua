@@ -12,7 +12,6 @@ require('nvim-treesitter.configs').setup {
             init_selection = '<m-s>',
             node_incremental = '<m-s>',
             node_decremental = '<c-s>',
-            --scope_incremental = '<c-s>',
         },
     },
     textobjects = {

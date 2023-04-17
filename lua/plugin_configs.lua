@@ -14,11 +14,15 @@ require('which-key').setup({})
 
 
 require('nvim_comment').setup({
+    -- NOTE Choose whichever one works for your terminal:
     line_mapping = "<C-/><C-/>", -- normal mode
     operator_mapping = "<C-/>", -- visual mode
+    -- line_mapping = "<C-_><C-_>", -- normal mode
+    -- operator_mapping = "<C-_>", -- visual mode
 })
 
 require('plugin_config.lualine')
 require('plugin_config.treesitter')
 require('plugin_config.lsp')
+require('plugin_config.nvim_cmp')
 require('plugin_config.telescope')
