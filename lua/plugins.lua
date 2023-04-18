@@ -263,6 +263,7 @@ require("lazy").setup({
             map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
             -- Close buffer
             map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+            map("n", "<A-C>", "<Cmd>BufferClose!<CR>", opts)
             -- Wipeout buffer
             --                 :BufferWipeout
             -- Close commands
@@ -272,7 +273,7 @@ require("lazy").setup({
             --                 :BufferCloseBuffersLeft
             --                 :BufferCloseBuffersRight
             -- Magic buffer-picking mode
-            map("n", "<A-m>", "<Cmd>BufferPick<CR>", opts)
+            map("n", "<A-b>", "<Cmd>BufferPick<CR>", opts)
         end,
         opts = {
             auto_hide = true,
