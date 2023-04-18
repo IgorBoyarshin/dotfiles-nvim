@@ -101,8 +101,8 @@ local function lsp_keymaps(bufnr)
     -- nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
     -- See `:help K` for why this keymap
-    -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-    -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+    nmap('gh', vim.lsp.buf.hover, '[h]over documentation')
+    nmap('gs', vim.lsp.buf.signature_help, '[s]ignature documentation')
 
     -- Lesser used LSP functionality
     -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')

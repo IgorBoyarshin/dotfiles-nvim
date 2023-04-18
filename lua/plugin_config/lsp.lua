@@ -115,21 +115,23 @@ end
 --     )
 -- end
 --
--- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
-    -- on_attach = function(client, bufnr)
-    --     if client.supports_method("textDocument/formatting") then
-    --         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    --         vim.api.nvim_create_autocmd("BufWritePost", {
-    --             group = augroup,
-    --             buffer = bufnr,
-    --             callback = function()
-    --                 async_formatting(bufnr)
-    --             end,
-    --         })
-    --     end
-    -- end,
+    -- To format on save using the format() function, but not what the formatters offer on save
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePost", {
+                group = augroup,
+                buffer = bufnr,
+                callback = function()
+                    -- async_formatting(bufnr)
+                    vim.lsp.buf.format({ timeout_ms = 2000 })
+                end,
+            })
+        end
+    end,
     sources = {
         null_ls.builtins.diagnostics.eslint_d,
         null_ls.builtins.code_actions.eslint_d,

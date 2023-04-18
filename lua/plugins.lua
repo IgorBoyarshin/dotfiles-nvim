@@ -140,27 +140,9 @@ require("lazy").setup({
                 vim.keymap.set("n", "<leader>gs", ":Gitsigns stage_hunk<CR>", { desc = "[g]it [s]tage hunk" })
                 vim.keymap.set("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[g]it [u]ndo stage hunk" })
                 vim.keymap.set("n", "<leader>gp", gs.preview_hunk, { desc = "[g]it [p]review hunk" })
-                vim.keymap.set("n", "<leader>gS", gs.stage_buffer, { desc = "[g]it [s]tage buffer" })
-
-                -- Actions
-                -- map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
-                -- map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
-                -- map("n", "<leader>hS", gs.stage_buffer)
-                -- map("n", "<leader>hu", gs.undo_stage_hunk)
-                -- map("n", "<leader>hR", gs.reset_buffer)
-                -- map("n", "<leader>hp", gs.preview_hunk)
-                -- map("n", "<leader>hb", function()
-                --     gs.blame_line({ full = true })
-                -- end)
-                -- map("n", "<leader>tb", gs.toggle_current_line_blame)
-                -- map("n", "<leader>hd", gs.diffthis)
-                -- map("n", "<leader>hD", function()
-                --     gs.diffthis("~")
-                -- end)
-                -- map("n", "<leader>td", gs.toggle_deleted)
-                --
-                -- -- Text object
-                -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+                vim.keymap.set("n", "<leader>gS", gs.stage_buffer, { desc = "[g]it [S]tage buffer" })
+                -- vim.keymap.set("n", "<leader>gH", ":Gitsigns setqflist('all')<CR>",
+                vim.keymap.set("n", "<leader>gH", function() gs.setqflist('all') end, { desc = "[g]it list [H]unks" })
             end,
         },
     },
@@ -250,6 +232,7 @@ require("lazy").setup({
         end,
     },
 
+    -- Tabs
     {
         "romgrk/barbar.nvim",
         dependencies = "nvim-tree/nvim-web-devicons",
