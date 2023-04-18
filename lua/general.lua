@@ -35,6 +35,7 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 0 -- when backspacing, delete by spaces, not by tabs
 vim.opt.expandtab = true
+vim.opt.smartindent = true
 
 vim.cmd([[
 augroup typescriptindent

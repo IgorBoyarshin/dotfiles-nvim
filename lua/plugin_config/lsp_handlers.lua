@@ -1,16 +1,15 @@
 local M = {}
 
-
 function M.setup()
     local signs = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn",  text = "" },
-        { name = "DiagnosticSignHint",  text = "" },
-        { name = "DiagnosticSignInfo",  text = "" },
+        { name = 'DiagnosticSignError', text = '' },
+        { name = 'DiagnosticSignWarn', text = '' },
+        { name = 'DiagnosticSignHint', text = '' },
+        { name = 'DiagnosticSignInfo', text = '' },
     }
 
     for _, sign in ipairs(signs) do
-        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
     end
 
     vim.diagnostic.config({
@@ -23,20 +22,20 @@ function M.setup()
         severity_sort = true,
         float = {
             focusable = false,
-            style = "minimal",
-            border = "rounded",
-            source = "always",
-            header = "",
-            prefix = "",
+            style = 'minimal',
+            border = 'rounded',
+            source = 'always',
+            header = '',
+            prefix = '',
         },
     })
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
     })
 
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = 'rounded',
     })
 end
 
@@ -51,7 +50,6 @@ end
 --         ]], false)
 --     end
 -- end
-
 
 local function lsp_keymaps(bufnr)
     local nmap = function(keys, func, desc)
@@ -75,12 +73,22 @@ local function lsp_keymaps(bufnr)
     nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
 
     -- nmap('gl', vim.lsp.diagnostic.show_line_diagnostics({ border = 'rounded' }), 'Show [l]ine diagnostic')
-    nmap('gl', function() vim.diagnostic.open_float() end, 'Show [l]ine diagnostic')
-    nmap('[d', function() vim.diagnostic.goto_prev({ border = 'rounded' }) end, 'Goto prev [d]iagnostic')
-    nmap(']d', function() vim.diagnostic.goto_next({ border = 'rounded' }) end, 'Goto next [d]iagnostic')
-    nmap('<leader>l', function() vim.diagnostic.setloclist() end, 'Set [l]oclist')
+    nmap('gl', function()
+        vim.diagnostic.open_float()
+    end, 'Show [l]ine diagnostic')
+    nmap('[d', function()
+        vim.diagnostic.goto_prev({ border = 'rounded' })
+    end, 'Goto prev [d]iagnostic')
+    nmap(']d', function()
+        vim.diagnostic.goto_next({ border = 'rounded' })
+    end, 'Goto next [d]iagnostic')
+    nmap('<leader>l', function()
+        vim.diagnostic.setloclist()
+    end, 'Set [l]oclist')
 
-    nmap('<leader>F', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, 'LSP [F]ormat')
+    nmap('<leader>F', function()
+        vim.lsp.buf.format({ timeout_ms = 2000 })
+    end, '[F]ormat')
 
     nmap('<leader>V', function()
         vim.diagnostic.config({ virtual_text = true })
@@ -90,9 +98,6 @@ local function lsp_keymaps(bufnr)
         vim.diagnostic.config({ virtual_text = false })
         print('Virtual text is now OFF')
     end, 'Turn [V]isual text OFF')
-
-
-
 
     -- vim.cmd([[ command! Format1 execute 'lua vim.lsp.buf.format({ timeout_ms = 2000 })' ]])
 
@@ -117,9 +122,8 @@ local function lsp_keymaps(bufnr)
     -- end, { desc = 'Format current buffer with LSP' })
 end
 
-
 function M.on_attach(client, bufnr)
-    require("lsp-format").on_attach(client)
+    -- require("lsp-format").on_attach(client)
 
     if client.name == 'tsserver' then
         client.server_capabilities.document_formatting = false

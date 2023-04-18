@@ -7,7 +7,7 @@ local servers = {
     clangd = {},
     tsserver = {
         completions = {
-            completefunctioncalls = true
+            completefunctioncalls = true,
         },
         -- languages = {
         --     typescript = { prettier },
@@ -18,44 +18,50 @@ local servers = {
     lua_ls = {
         Lua = {
             telemetry = {
-                enable = false
+                enable = false,
             },
             diagnostics = {
-                globals = { "vim" },
+                globals = { 'vim' },
             },
             workspace = {
-                -- checkthirdparty = false,
+                checkthirdparty = false,
                 library = {
-                    [vim.fn.expand("$vimruntime/lua")] = true,
-                    [vim.fn.stdpath("config") .. "/lua"] = true,
+                    [vim.fn.expand('$vimruntime/lua')] = true,
+                    [vim.fn.stdpath('config') .. '/lua'] = true,
                 },
             },
         },
     },
 }
 
-
-require("mason").setup({
+require('mason').setup({
     ui = {
-        border = "none",
+        border = 'none',
         icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
+            package_installed = '✓',
+            package_pending = '➜',
+            package_uninstalled = '✗',
+        },
     },
     log_level = vim.log.levels.info,
     max_concurrent_installers = 3,
 })
+
+-- require("mason-null-ls").setup({
+-- 	ensure_installed = vim.tbl_keys(servers), -- Opt to list sources here, when available in mason. },
+-- 	-- ensure_installed = { tsserver, lua_ls }, -- Opt to list sources here, when available in mason. },
+-- 	automatic_installation = false,
+-- 	handlers = {},
+-- })
 
 require('mason-lspconfig').setup({
     ensure_installed = vim.tbl_keys(servers),
     automatic_installation = true,
 })
 
-require("lsp-format").setup({})
+-- require("lsp-format").setup({})
 -- Perform a sync version of format on :wq
-vim.cmd([[cabbrev wq execute "Format sync" <bar> wq]])
+-- vim.cmd([[cabbrev wq execute "Format sync" <bar> wq]])
 
 local ok_lspconfig, lspconfig = pcall(require, 'lspconfig')
 if not ok_lspconfig then
@@ -74,9 +80,7 @@ for server, conf_opts in pairs(servers) do
     })
 end
 
-
 require('neodev').setup()
-
 
 local ok, null_ls = pcall(require, 'null-ls')
 if not ok then
@@ -114,30 +118,54 @@ end
 --         end
 --     )
 -- end
---
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 null_ls.setup({
     -- To format on save using the format() function, but not what the formatters offer on save
     on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
+        -- The Buffer will be null in buffers like nvim-tree or new unsaved files
+        if not bufnr then
+            return
+        end
+
+        if client.supports_method('textDocument/formatting') then
             vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePost", {
+            vim.api.nvim_create_autocmd('BufWritePre', {
                 group = augroup,
                 buffer = bufnr,
                 callback = function()
                     -- async_formatting(bufnr)
-                    vim.lsp.buf.format({ timeout_ms = 2000 })
+                    vim.lsp.buf.format({
+                        timeout_ms = 2000,
+                        filter = function(cl)
+                            -- By default, ignore any formatters provider by other LSPs
+                            -- (such as those managed via lspconfig or mason)
+                            return cl.name == 'null-ls'
+                        end,
+                        buffer = bufnr,
+                    })
                 end,
             })
         end
     end,
     sources = {
+        -- null_ls.builtins.diagnostics.cspell,
+        -- null_ls.builtins.code_actions.cspell,
+
         null_ls.builtins.diagnostics.eslint_d,
+
+        null_ls.builtins.code_actions.gitsigns,
         null_ls.builtins.code_actions.eslint_d,
-        -- null_ls.builtins.formatting.eslint_d,
-        null_ls.builtins.formatting.stylua,
+
+        null_ls.builtins.completion.luasnip,
+
         null_ls.builtins.formatting.prettierd,
+        null_ls.builtins.formatting.stylua.with({
+            extra_args = { '--indent-type', 'Spaces', '--quote-style', 'AutoPreferSingle' },
+        }),
+
+        -- null_ls.builtins.formatting.eslint_d,
         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--single-quotes' } }),
         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--no-semi', '--single-quotes' } }),
         -- null_ls.builtins.completion.spell,
