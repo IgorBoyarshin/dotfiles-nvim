@@ -1,5 +1,5 @@
-require('nvim-treesitter.configs').setup {
-    ensure_installed = { 'c', 'lua', 'rust', 'vim', 'typescript', 'javascript',' json' },
+require('nvim-treesitter.configs').setup({
+    ensure_installed = { 'c', 'lua', 'rust', 'vim', 'typescript', 'javascript', ' json' },
     sync_install = false,
     auto_install = true,
     highlight = {
@@ -58,4 +58,4 @@ require('nvim-treesitter.configs').setup {
         --     },
         -- },
     },
-}
+})

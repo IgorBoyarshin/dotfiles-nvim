@@ -17,6 +17,16 @@ require('lazy').setup({
     'itchyny/vim-cursorword', -- underlines all occurances of word under cursor
     'lukas-reineke/indent-blankline.nvim',
     'nvim-lualine/lualine.nvim',
+    {
+        'mbbill/undotree',
+        init = function()
+            vim.keymap.set('n', '<C-h>', vim.cmd.UndotreeToggle, { desc = '[h]istory undo tree' })
+            vim.cmd([[
+                let g:undotree_WindowLayout = 4
+                let g:undotree_SetFocusWhenToggle = 1
+            ]])
+        end,
+    },
 
     { 'terrortylor/nvim-comment', event = 'VeryLazy' },
 
@@ -77,41 +87,36 @@ require('lazy').setup({
         'folke/trouble.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         init = function()
-            vim.keymap.set(
-                'n',
-                '<leader>tt',
-                '<cmd>TroubleToggle<cr>',
-                { silent = true, noremap = true, desc = '[t]rouble [t]oggle' }
-            )
+            vim.keymap.set('n', '<leader>tt', '<cmd>TroubleToggle<cr>', { silent = true, desc = '[t]rouble [t]oggle' })
             vim.keymap.set(
                 'n',
                 '<leader>tw',
                 '<cmd>TroubleToggle workspace_diagnostics<cr>',
-                { silent = true, noremap = true, desc = '[t]rouble [w]orkspace diagnostics' }
+                { silent = true, desc = '[t]rouble [w]orkspace diagnostics' }
             )
             vim.keymap.set(
                 'n',
                 '<leader>td',
                 '<cmd>TroubleToggle document_diagnostics<cr>',
-                { silent = true, noremap = true, desc = '[t]rouble [d]ocument diagnostics' }
+                { silent = true, desc = '[t]rouble [d]ocument diagnostics' }
             )
             vim.keymap.set(
                 'n',
                 '<leader>tl',
                 '<cmd>TroubleToggle loclist<cr>',
-                { silent = true, noremap = true, desc = '[t]rouble [l]oclist' }
+                { silent = true, desc = '[t]rouble [l]oclist' }
             )
             vim.keymap.set(
                 'n',
                 '<leader>tq',
                 '<cmd>TroubleToggle quickfix<cr>',
-                { silent = true, noremap = true, desc = '[t]rouble [q]uickfix' }
+                { silent = true, desc = '[t]rouble [q]uickfix' }
             )
             vim.keymap.set(
                 'n',
                 'gr',
                 '<cmd>TroubleToggle lsp_references<cr>',
-                { silent = true, noremap = true, desc = 'trouble LSP [r]eferences' }
+                { silent = true, desc = 'trouble LSP [r]eferences' }
             )
         end,
     },
@@ -181,8 +186,9 @@ require('lazy').setup({
 
                 highlight Todo gui=bold guifg=#ff1974 guibg=#232136
 
-                " highlight BufferCurrent guibg=#232136
-                " highlight BufferInactive guibg=#090716
+                highlight BufferCurrent guibg=#232136
+                highlight BufferCurrentMod guibg=#232136
+                highlight BufferInactive guibg=#090716
             ]])
         end,
     },
