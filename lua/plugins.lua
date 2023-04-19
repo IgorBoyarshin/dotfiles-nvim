@@ -219,10 +219,10 @@ require('lazy').setup({
     --     end,
     -- },
 
-    {
-        'jose-elias-alvarez/null-ls.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-    },
+    -- {
+    --     'jose-elias-alvarez/null-ls.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    -- },
 
     {
         'neovim/nvim-lspconfig',
@@ -231,8 +231,27 @@ require('lazy').setup({
             { 'williamboman/mason.nvim', build = ':MasonUpdate' },
             'williamboman/mason-lspconfig.nvim',
             { 'j-hui/fidget.nvim', opts = {} },
-            'folke/neodev.nvim',
+            'folke/neodev.nvim', -- for lua language server
             -- "lukas-reineke/lsp-format.nvim",
+            {
+                'mhartington/formatter.nvim',
+                init = function()
+                    -- NOTE at the very least the plugin will remove whitespaces
+
+                    vim.keymap.set('n', '<leader>F', '<cmd>FormatLock<cr>', { desc = 'FormatLock' })
+
+                    vim.cmd([[
+                        augroup FormatAutogroup
+                            autocmd!
+                            autocmd BufWritePost * FormatWriteLock
+                        augroup END
+                    ]])
+
+                    -- vim.api.nvim_buf_create_user_command(bufnr, 'Format2', function(_)
+                    --     vim.lsp.buf.format()
+                    -- end, { desc = 'Format current buffer with LSP' })
+                end,
+            },
         },
     },
 

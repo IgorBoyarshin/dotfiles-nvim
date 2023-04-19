@@ -80,13 +80,63 @@ for server, conf_opts in pairs(servers) do
     })
 end
 
+-- For lua language server
 require('neodev').setup()
 
-local ok, null_ls = pcall(require, 'null-ls')
-if not ok then
-    print('ERROR: failed to require: null-ls')
-    return
-end
+local util = require('formatter.util')
+require('formatter').setup({
+    logging = true,
+    log_level = vim.log.levels.WARN,
+    filetype = { -- all are opt-in
+        -- Formatters for each filetype will be executed in order
+
+        lua = {
+            -- require('formatter.filetypes.lua').stylua,
+            function()
+                -- if util.get_current_buffer_file_name() == 'special.lua' then
+                --     return nil
+                -- end
+
+                return {
+                    exe = 'stylua',
+                    args = {
+                        '--indent-type',
+                        'Spaces',
+                        '--quote-style',
+                        'AutoPreferSingle',
+                        '--search-parent-directories',
+                        '--stdin-filepath',
+                        util.escape_path(util.get_current_buffer_file_path()),
+                        '--',
+                        '-',
+                    },
+                    stdin = true,
+                }
+            end,
+        },
+
+        javascript = {
+            require('formatter.filetypes.javascript').eslint_d,
+            require('formatter.filetypes.javascript').prettierd,
+        },
+
+        typescript = {
+            require('formatter.filetypes.typescript').eslint_d,
+            require('formatter.filetypes.typescript').prettierd,
+        },
+
+        -- For any filetype
+        ['*'] = {
+            require('formatter.filetypes.any').remove_trailing_whitespace,
+        },
+    },
+})
+
+-- local ok, null_ls = pcall(require, 'null-ls')
+-- if not ok then
+--     print('ERROR: failed to require: null-ls')
+--     return
+-- end
 
 -- local async_formatting = function(bufnr)
 --     bufnr = bufnr or vim.api.nvim_get_current_buf()
@@ -119,55 +169,58 @@ end
 --     )
 -- end
 
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-
-null_ls.setup({
-    -- To format on save using the format() function, but not what the formatters offer on save
-    on_attach = function(client, bufnr)
-        -- The Buffer will be null in buffers like nvim-tree or new unsaved files
-        if not bufnr then
-            return
-        end
-
-        if client.supports_method('textDocument/formatting') then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd('BufWritePre', {
-                group = augroup,
-                buffer = bufnr,
-                callback = function()
-                    -- async_formatting(bufnr)
-                    vim.lsp.buf.format({
-                        timeout_ms = 2000,
-                        filter = function(cl)
-                            -- By default, ignore any formatters provider by other LSPs
-                            -- (such as those managed via lspconfig or mason)
-                            return cl.name == 'null-ls'
-                        end,
-                        buffer = bufnr,
-                    })
-                end,
-            })
-        end
-    end,
-    sources = {
-        -- null_ls.builtins.diagnostics.cspell,
-        -- null_ls.builtins.code_actions.cspell,
-
-        null_ls.builtins.diagnostics.eslint_d,
-
-        null_ls.builtins.code_actions.gitsigns,
-        null_ls.builtins.code_actions.eslint_d,
-
-        null_ls.builtins.completion.luasnip,
-
-        null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.formatting.stylua.with({
-            extra_args = { '--indent-type', 'Spaces', '--quote-style', 'AutoPreferSingle' },
-        }),
-
-        -- null_ls.builtins.formatting.eslint_d,
-        -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--single-quotes' } }),
-        -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--no-semi', '--single-quotes' } }),
-        -- null_ls.builtins.completion.spell,
-    },
-})
+-- local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+--
+-- null_ls.setup({
+--     -- To format on save using the format() function, but not what the formatters offer on save
+--     on_attach = function(client, bufnr)
+--         -- The Buffer will be null in buffers like nvim-tree or new unsaved files
+--         if not bufnr then
+--             return
+--         end
+--
+--         if client.supports_method('textDocument/formatting') then
+--             vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+--             -- vim.api.nvim_create_autocmd('BufWritePre', {
+--             --     group = augroup,
+--             --     buffer = bufnr,
+--             --     callback = function()
+--             --         print('igorek')
+--             --
+--             --         -- async_formatting(bufnr)
+--             --
+--             --         -- vim.lsp.buf.format({
+--             --         --     timeout_ms = 2000,
+--             --         --     filter = function(cl)
+--             --         --         -- By default, ignore any formatters provider by other LSPs
+--             --         --         -- (such as those managed via lspconfig or mason)
+--             --         --         return cl.name == 'null-ls'
+--             --         --     end,
+--             --         --     buffer = bufnr,
+--             --         -- })
+--             --     end,
+--             -- })
+--         end
+--     end,
+--     sources = {
+--         -- null_ls.builtins.diagnostics.cspell,
+--         -- null_ls.builtins.code_actions.cspell,
+--
+--         null_ls.builtins.diagnostics.eslint_d,
+--
+--         null_ls.builtins.code_actions.gitsigns,
+--         null_ls.builtins.code_actions.eslint_d,
+--
+--         null_ls.builtins.completion.luasnip,
+--
+--         null_ls.builtins.formatting.prettierd,
+--         null_ls.builtins.formatting.stylua.with({
+--             extra_args = { '--indent-type', 'Spaces', '--quote-style', 'AutoPreferSingle' },
+--         }),
+--
+--         -- null_ls.builtins.formatting.eslint_d,
+--         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--single-quotes' } }),
+--         -- null_ls.builtins.formatting.prettier.with({ extra_args = { '--no-semi', '--single-quotes' } }),
+--         -- null_ls.builtins.completion.spell,
+--     },
+-- })

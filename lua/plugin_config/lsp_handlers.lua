@@ -86,9 +86,9 @@ local function lsp_keymaps(bufnr)
         vim.diagnostic.setloclist()
     end, 'Set [l]oclist')
 
-    nmap('<leader>F', function()
-        vim.lsp.buf.format({ timeout_ms = 2000 })
-    end, '[F]ormat')
+    -- nmap('<leader>F', function()
+    --     vim.lsp.buf.format({ timeout_ms = 2000 })
+    -- end, '[F]ormat')
 
     nmap('<leader>V', function()
         vim.diagnostic.config({ virtual_text = true })
@@ -125,9 +125,12 @@ end
 function M.on_attach(client, bufnr)
     -- require("lsp-format").on_attach(client)
 
-    if client.name == 'tsserver' then
-        client.server_capabilities.document_formatting = false
-    end
+    -- Use the dedicated plugin for formatting (formatter.nvim) and disallow
+    -- all other ways just in case.
+    client.server_capabilities.document_formatting = false
+    -- if client.name == 'tsserver' then
+    --     client.server_capabilities.document_formatting = false
+    -- end
 
     lsp_keymaps(bufnr)
     -- lsp_highlight_document(client)
