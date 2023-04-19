@@ -240,16 +240,11 @@ require('lazy').setup({
 
                     vim.keymap.set('n', '<leader>F', '<cmd>FormatLock<cr>', { desc = 'FormatLock' })
 
-                    vim.cmd([[
-                        augroup FormatAutogroup
-                            autocmd!
-                            autocmd BufWritePost * FormatWriteLock
-                        augroup END
-                    ]])
-
-                    -- vim.api.nvim_buf_create_user_command(bufnr, 'Format2', function(_)
-                    --     vim.lsp.buf.format()
-                    -- end, { desc = 'Format current buffer with LSP' })
+                    vim.api.nvim_create_autocmd('BufWritePost', {
+                        group = vim.api.nvim_create_augroup('FormatAutoGroup', { clear = true }),
+                        command = 'FormatWriteLock',
+                        desc = 'FormatLock on file save',
+                    })
                 end,
             },
         },

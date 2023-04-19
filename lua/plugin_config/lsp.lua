@@ -73,10 +73,27 @@ local lsp_handlers = require('plugin_config.lsp_handlers')
 lsp_handlers.setup()
 
 for server, conf_opts in pairs(servers) do
+    local commands = {}
+    if server == 'tsserver' then
+        commands = {
+            OrganizeImports = {
+                function()
+                    vim.lsp.buf.execute_command({
+                        command = '_typescript.organizeImports',
+                        arguments = { vim.api.nvim_buf_get_name(0) },
+                        title = '',
+                    })
+                end,
+                description = 'Organize imports',
+            },
+        }
+    end
+
     lspconfig[server].setup({
         on_attach = lsp_handlers.on_attach,
         capabilities = lsp_handlers.capabilities,
         settings = conf_opts,
+        commands = commands,
     })
 end
 

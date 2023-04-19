@@ -131,6 +131,9 @@ function M.on_attach(client, bufnr)
     -- if client.name == 'tsserver' then
     --     client.server_capabilities.document_formatting = false
     -- end
+    if client.name == 'tsserver' then
+        vim.keymap.set('n', '<leader>O', '<cmd>OrganizeImports<cr>', { buffer = bufnr, desc = '[O]rganize Imports' })
+    end
 
     lsp_keymaps(bufnr)
     -- lsp_highlight_document(client)
