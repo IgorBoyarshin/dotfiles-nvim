@@ -1,3 +1,6 @@
-vim.g.igorek_settings = {}
-vim.g.igorek_settings.startup_spell_on = false
-vim.g.igorek_settings.slash_as_underscore = false
+local M = {}
+
+M.startup_spell_on = false
+M.slash_as_underscore = false
+
+return M

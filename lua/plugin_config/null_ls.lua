@@ -25,7 +25,7 @@ null_ls.setup({
 })
 
 if vim.fn.executable('cspell') > 0 then
-    if not vim.g.igorek_settings.startup_spell_on then
+    if not require('settings').startup_spell_on then
         null_ls.disable({ 'cspell' }) -- disable cspell by default
     end
 

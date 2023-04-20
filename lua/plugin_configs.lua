@@ -13,7 +13,7 @@ require('indent_blankline').setup({
 
 require('which-key').setup({})
 
-if vim.g.igorek_settings.slash_as_underscore or vim.env.TMUX then
+if require('settings').slash_as_underscore or vim.env.TMUX then
     require('nvim_comment').setup({
         line_mapping = '<C-_><C-_>', -- normal mode
         operator_mapping = '<C-_>', -- visual mode
