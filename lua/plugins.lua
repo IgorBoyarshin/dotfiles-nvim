@@ -63,6 +63,9 @@ require('lazy').setup({
             renderer = {
                 highlight_git = true, -- color the whole name according to git status
             },
+            git = {
+                ignore = false,
+            },
         },
         init = function()
             -- Close NvimTree if it is the last open buffer
