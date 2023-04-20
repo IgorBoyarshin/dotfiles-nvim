@@ -77,13 +77,7 @@ for server, conf_opts in pairs(servers) do
     if server == 'tsserver' then
         commands = {
             OrganizeImports = {
-                function()
-                    vim.lsp.buf.execute_command({
-                        command = '_typescript.organizeImports',
-                        arguments = { vim.api.nvim_buf_get_name(0) },
-                        title = '',
-                    })
-                end,
+                lsp_handlers.make_organize_imports_callback(0, 2000),
                 description = 'Organize imports',
             },
         }

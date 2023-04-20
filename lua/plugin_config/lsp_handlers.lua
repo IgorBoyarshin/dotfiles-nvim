@@ -122,6 +122,15 @@ local function lsp_keymaps(bufnr)
     -- end, { desc = 'Format current buffer with LSP' })
 end
 
+function M.make_organize_imports_callback(bufnr, timeout)
+    return function()
+        vim.lsp.buf_request_sync(bufnr, 'workspace/executeCommand', {
+            command = '_typescript.organizeImports',
+            arguments = { vim.api.nvim_buf_get_name(bufnr) },
+        }, timeout)
+    end
+end
+
 function M.on_attach(client, bufnr)
     -- require("lsp-format").on_attach(client)
 
@@ -133,6 +142,12 @@ function M.on_attach(client, bufnr)
     -- end
     if client.name == 'tsserver' then
         vim.keymap.set('n', '<leader>O', '<cmd>OrganizeImports<cr>', { buffer = bufnr, desc = '[O]rganize Imports' })
+
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = vim.api.nvim_create_augroup('OrganizeImportsGroup', {}),
+            buffer = bufnr,
+            callback = M.make_organize_imports_callback(bufnr, 2000),
+        })
     end
 
     lsp_keymaps(bufnr)
