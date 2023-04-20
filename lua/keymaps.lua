@@ -31,7 +31,8 @@ vim.keymap.set('n', '<down>', 'ddp')
 vim.keymap.set('n', '<right>', 'xp')
 vim.keymap.set('n', '<left>', 'xhP')
 
-vim.keymap.set('n', '<C-y>', 'K')
+-- Disable until we know we need it
+-- vim.keymap.set('n', '<C-K>', 'K')
 
 vim.keymap.set('n', '<C-j>', 'J')
 vim.keymap.set('n', '<C-k>', 'kJ')
