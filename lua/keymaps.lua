@@ -5,14 +5,14 @@ vim.keymap.set(
     { desc = '[r]eload init.lua' }
 )
 
-vim.keymap.set('n', '<leader>S', function()
+vim.keymap.set('n', '<leader>cs', function()
     pcall(vim.cmd, ':%s/\\s*$//<C-l>')
-    print('Removed all trailing whitespaces from the buffer!')
-end, { desc = 'remove trailing [s]paces' })
-vim.keymap.set('n', '<leader>M', function()
+    print('Cleared all trailing whitespaces from the buffer!')
+end, { desc = '[c]lear trailing [s]paces' })
+vim.keymap.set('n', '<leader>cm', function()
     local _, _ = pcall(vim.cmd, ':%s/\\r//')
-    print('Removed all ^M from the buffer!')
-end, { desc = 'remove ^M symbols' })
+    print('Cleared all ^M from the buffer!')
+end, { desc = '[c]lear ^M symbols' })
 
 vim.keymap.set('n', 'gP', 'O<Esc>Vp<cmd>let @+ = @0<cr>')
 vim.keymap.set('n', 'gp', 'o<Esc>Vp<cmd>let @+ = @0<cr>')

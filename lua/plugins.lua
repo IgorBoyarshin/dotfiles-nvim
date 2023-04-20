@@ -222,10 +222,10 @@ require('lazy').setup({
     --     end,
     -- },
 
-    -- {
-    --     'jose-elias-alvarez/null-ls.nvim',
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    -- },
+    {
+        'jose-elias-alvarez/null-ls.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
 
     {
         'neovim/nvim-lspconfig',

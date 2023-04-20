@@ -28,5 +28,7 @@ end
 require('plugin_config.lualine')
 require('plugin_config.treesitter')
 require('plugin_config.lsp')
+require('plugin_config.formatter')
+require('plugin_config.null_ls')
 require('plugin_config.nvim_cmp')
 require('plugin_config.telescope')
