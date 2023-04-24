@@ -18,6 +18,12 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     'nvim-lualine/lualine.nvim',
     {
+        'kdheepak/lazygit.nvim',
+        init = function()
+            vim.keymap.set('n', '<leader>gl', '<cmd>LazyGit<cr>', { desc = '[g]it [l]azy' })
+        end,
+    },
+    {
         'mbbill/undotree',
         init = function()
             vim.keymap.set('n', '<C-h>', vim.cmd.UndotreeToggle, { desc = '[h]istory undo tree' })
