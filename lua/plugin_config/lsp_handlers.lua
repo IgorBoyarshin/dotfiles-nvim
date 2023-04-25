@@ -137,17 +137,21 @@ function M.on_attach(client, bufnr)
     -- Use the dedicated plugin for formatting (formatter.nvim) and disallow
     -- all other ways just in case.
     client.server_capabilities.document_formatting = false
-    -- if client.name == 'tsserver' then
-    --     client.server_capabilities.document_formatting = false
-    -- end
     if client.name == 'tsserver' then
-        vim.keymap.set('n', '<leader>O', '<cmd>OrganizeImports<cr>', { buffer = bufnr, desc = '[O]rganize Imports' })
+        vim.keymap.set(
+            'n',
+            '<leader>O',
+            M.make_organize_imports_callback(bufnr, 2000),
+            { buffer = bufnr, desc = '[O]rganize Imports' }
+        )
 
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            group = vim.api.nvim_create_augroup('OrganizeImportsGroup', {}),
-            buffer = bufnr,
-            callback = M.make_organize_imports_callback(bufnr, 2000),
-        })
+        -- NOTE Disabled because we suspect there is a chance this gets executed
+        -- out-of-order with regards to the formatters on save.
+        -- vim.api.nvim_create_autocmd('BufWritePre', {
+        --     group = vim.api.nvim_create_augroup('OrganizeImportsGroup', {}),
+        --     buffer = bufnr,
+        --     callback = M.make_organize_imports_callback(bufnr, 2000),
+        -- })
     end
 
     lsp_keymaps(bufnr)

@@ -61,14 +61,14 @@ lsp_handlers.setup()
 
 for server, conf_opts in pairs(servers) do
     local commands = {}
-    if server == 'tsserver' then
-        commands = {
-            OrganizeImports = {
-                lsp_handlers.make_organize_imports_callback(0, 2000),
-                description = 'Organize imports',
-            },
-        }
-    end
+    -- if server == 'tsserver' then
+    --     commands = {
+    --         OrganizeImports = {
+    --             lsp_handlers.make_organize_imports_callback(0, 2000),
+    --             description = 'Organize imports',
+    --         },
+    --     }
+    -- end
 
     lspconfig[server].setup({
         on_attach = lsp_handlers.on_attach,

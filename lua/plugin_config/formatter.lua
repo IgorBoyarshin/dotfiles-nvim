@@ -36,6 +36,21 @@ require('formatter').setup({
         },
 
         typescript = {
+            function()
+                local old_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
+                require('plugin_config.lsp_handlers').make_organize_imports_callback(0, 2000)()
+                local new_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
+
+                -- NOTE This is a hack to make sure the line count stays
+                -- the same before and after this function's execution.
+                -- This is required for the plugin's internal functionality not
+                -- to throw an error.
+                -- NOTE We can only remedy the decreased line count, unfortunately,
+                -- so we have to bear the error otherwise.
+                for _ = 1, (old_lines_count - new_lines_count) do
+                    vim.api.nvim_buf_set_lines(0, -1, -1, false, { '' })
+                end
+            end,
             require('formatter.filetypes.typescript').eslint_d,
             require('formatter.filetypes.typescript').prettierd,
         },
