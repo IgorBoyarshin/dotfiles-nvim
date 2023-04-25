@@ -45,8 +45,10 @@ require('formatter').setup({
                 -- the same before and after this function's execution.
                 -- This is required for the plugin's internal functionality not
                 -- to throw an error.
-                -- NOTE We can only remedy the decreased line count, unfortunately,
-                -- so we have to bear the error otherwise.
+                -- NOTE We can only remedy the decreased line count. The increased
+                -- line count does not trigger the error because it represents
+                -- a part of the buffer. Subsequent formatters do not seem to
+                -- suffer from this, though.
                 for _ = 1, (old_lines_count - new_lines_count) do
                     vim.api.nvim_buf_set_lines(0, -1, -1, false, { '' })
                 end
