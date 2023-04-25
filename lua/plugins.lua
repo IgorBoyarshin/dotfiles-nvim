@@ -245,14 +245,14 @@ require('lazy').setup({
             {
                 'mhartington/formatter.nvim',
                 init = function()
-                    -- NOTE at the very least the plugin will remove whitespaces
+                    -- NOTE at the very least this plugin can remove whitespaces
 
-                    vim.keymap.set('n', '<leader>F', '<cmd>FormatLock<cr>', { desc = 'FormatLock' })
+                    vim.keymap.set('n', '<leader>F', '<cmd>Format<cr>', { desc = 'Format' })
 
                     vim.api.nvim_create_autocmd('BufWritePost', {
                         group = vim.api.nvim_create_augroup('FormatAutoGroup', { clear = true }),
-                        command = 'FormatWriteLock',
-                        desc = 'FormatLock on file save',
+                        command = 'FormatWrite',
+                        desc = 'Format on file save',
                     })
                 end,
             },
