@@ -1,13 +1,12 @@
-local luasnip = require('luasnip')
-luasnip.config.setup({})
+-- require('luasnip').config.setup({})
 
 local cmp = require('cmp')
 cmp.setup({
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
+    -- snippet = {
+    --     expand = function(args)
+    --         luasnip.lsp_expand(args.body)
+    --     end,
+    -- },
     mapping = cmp.mapping.preset.insert({
         -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -38,14 +37,22 @@ cmp.setup({
     -- Order of priority in which the auto-complete suggestions will appear
     sources = {
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
         {
             name = 'buffer',
             option = {
-                keyword_length = 2,
+                -- keyword_length = 2,
             },
         },
-        { name = 'omni' },
-        -- { name = 'path' },
+        { name = 'cmdline' },
+        { name = 'path' },
+        -- { name = 'luasnip' },
+        -- { name = 'omni' },
+    },
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' },
     },
 })
