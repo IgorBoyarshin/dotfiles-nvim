@@ -78,5 +78,55 @@ for server, conf_opts in pairs(servers) do
     })
 end
 
+local rt = require('rust-tools')
+rt.setup({
+    -- For rust-tools:
+    tools = {
+        runnables = {
+            use_telescope = true,
+        },
+        hover_actions = {
+            -- whether the hover action window gets automatically focused
+            auto_focus = true,
+        },
+    },
+    -- For nvim-lspconfig:
+    server = {
+        on_attach = lsp_handlers.on_attach,
+        capabilities = lsp_handlers.capabilities,
+        settings = {
+            ['rust-analyzer'] = {
+                diagnostics = {
+                    enable = false,
+                },
+                checkOnSave = {
+                    -- (default is `cargo check`)
+                    overrideCommand = {
+                        'cargo',
+                        'clippy',
+                        '--workspace',
+                        '--message-format=json',
+                        '--all-targets',
+                        '--all-features',
+                    },
+                    -- command = 'clippy',
+                    -- allFeatures = true,
+                },
+                cargo = {
+                    features = 'all',
+                },
+            },
+            -- NOTE Mason will download and install the binary, but we will be using the
+            -- one provided by the rustup
+            cmd = {
+                'rustup',
+                'run',
+                'stable',
+                'rust-analyzer',
+            },
+        },
+    },
+})
+
 -- For lua language server
 require('neodev').setup()

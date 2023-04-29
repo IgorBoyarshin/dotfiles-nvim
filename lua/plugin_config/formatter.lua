@@ -30,6 +30,10 @@ require('formatter').setup({
             end,
         },
 
+        rust = {
+            require('formatter.filetypes.rust').rustfmt,
+        },
+
         javascript = {
             require('formatter.filetypes.javascript').eslint_d,
             require('formatter.filetypes.javascript').prettierd,

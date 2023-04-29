@@ -259,6 +259,8 @@ require('lazy').setup({
         },
     },
 
+    'simrat39/rust-tools.nvim',
+
     -- {
     --     "jay-babu/mason-null-ls.nvim",
     --     event = { "BufReadPre", "BufNewFile" },
