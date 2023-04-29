@@ -1,7 +1,7 @@
 local util = require('formatter.util')
 require('formatter').setup({
-    logging = true,
-    log_level = vim.log.levels.WARN,
+    logging = false,
+    -- log_level = vim.log.levels.WARN,
     filetype = { -- all are opt-in
         -- Formatters for each filetype will be executed in order
 
