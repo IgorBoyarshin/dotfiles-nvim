@@ -24,7 +24,20 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
 vim.keymap.set('n', '<Space>', 'i<Space><Esc>')
-vim.keymap.set('n', '<CR>', 'a<Space><Esc>')
+
+-- NOTE This is a workaround to be able to use CR both to put a space and to
+-- follow the file under cursor in a quicklist(and loclist) window.
+-- (1) Save a reference to the original (file following) functionality, as we
+-- don't know how to call it directly:
+vim.keymap.set('n', '<Leader><CR>', '<CR>')
+-- (2) Have the CR behave accordingly based on what window we are in:
+vim.keymap.set('n', '<CR>', function()
+    if vim.fn.getwininfo(vim.fn.win_getid())[1]['quickfix'] == 1 then
+        vim.cmd(vim.api.nvim_replace_termcodes('normal <Leader><Cr>', true, true, true))
+    else
+        vim.cmd(vim.api.nvim_replace_termcodes('normal a<Space><Esc>', true, true, true))
+    end
+end)
 
 vim.keymap.set('n', '<up>', 'ddkP')
 vim.keymap.set('n', '<down>', 'ddp')
