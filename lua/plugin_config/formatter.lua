@@ -1,4 +1,24 @@
-local util = require('formatter.util')
+---@diagnostic disable-next-line: unused-function, unused-local
+local function fixed_organize_reports()
+    local old_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
+    require('plugin_config.lsp_handlers').make_organize_imports_callback(0, 2000)()
+    local new_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
+
+    -- NOTE This is a hack to make sure the line count stays
+    -- the same before and after this function's execution.
+    -- This is required for the plugin's internal functionality not
+    -- to throw an error.
+    -- NOTE We can only remedy the decreased line count. The increased
+    -- line count does not trigger the error because it represents
+    -- a (sub)part of the buffer. Subsequent formatters do not seem to
+    -- suffer from this, though.
+    for _ = 1, (old_lines_count - new_lines_count) do
+        -- Add an empty line at the end of the file(that will get removed
+        -- by the default formatter at the very end)
+        vim.api.nvim_buf_set_lines(0, -1, -1, false, { '' })
+    end
+end
+
 require('formatter').setup({
     logging = false,
     -- log_level = vim.log.levels.WARN,
@@ -21,7 +41,7 @@ require('formatter').setup({
                         'AutoPreferSingle',
                         '--search-parent-directories',
                         '--stdin-filepath',
-                        util.escape_path(util.get_current_buffer_file_path()),
+                        require('formatter.util').escape_path(require('formatter.util').get_current_buffer_file_path()),
                         '--',
                         '-',
                     },
@@ -40,23 +60,7 @@ require('formatter').setup({
         },
 
         typescript = {
-            function()
-                local old_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
-                require('plugin_config.lsp_handlers').make_organize_imports_callback(0, 2000)()
-                local new_lines_count = #vim.api.nvim_buf_get_lines(0, 0, vim.api.nvim_buf_line_count(0), false)
-
-                -- NOTE This is a hack to make sure the line count stays
-                -- the same before and after this function's execution.
-                -- This is required for the plugin's internal functionality not
-                -- to throw an error.
-                -- NOTE We can only remedy the decreased line count. The increased
-                -- line count does not trigger the error because it represents
-                -- a part of the buffer. Subsequent formatters do not seem to
-                -- suffer from this, though.
-                for _ = 1, (old_lines_count - new_lines_count) do
-                    vim.api.nvim_buf_set_lines(0, -1, -1, false, { '' })
-                end
-            end,
+            -- fixed_organize_reports,
             require('formatter.filetypes.typescript').eslint_d,
             require('formatter.filetypes.typescript').prettierd,
         },
