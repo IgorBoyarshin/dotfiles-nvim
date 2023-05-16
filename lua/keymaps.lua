@@ -67,6 +67,11 @@ vim.keymap.set('i', '<C-w>', '<C-g>u<C-w>')
 -- gv highlights whatever was previously selected
 vim.keymap.set('v', 'p', 'pgvy')
 
+-- Duplicate current selection, leaving the previous commented-out
+if pcall(require, 'nvim_comment') then -- if plugin present
+    vim.keymap.set('v', 'gy', "y'<V'>:CommentToggle<Cr>'>p", { desc = 'Duplicate and comment-out' })
+end
+
 -- Spell checking
 -- To correct using suggestions: z=
 vim.keymap.set('n', '<F5>', function()
