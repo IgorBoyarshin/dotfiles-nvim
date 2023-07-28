@@ -43,7 +43,7 @@ cmp.setup({
                 -- keyword_length = 2,
             },
         },
-        { name = 'cmdline' },
+        -- { name = 'cmdline' }, -- causes E481
         { name = 'path' },
         -- { name = 'luasnip' },
         -- { name = 'omni' },
