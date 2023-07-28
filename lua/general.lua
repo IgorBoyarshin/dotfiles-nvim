@@ -22,6 +22,12 @@ vim.opt.mouse = 'a'
 -- capital letter in the search pattern.
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.cmd([[
+    nnoremap <silent>  * :let @/='\C\<' . expand('<cword>') . '\>'<CR>:let v:searchforward=1<CR>n
+    nnoremap <silent>  # :let @/='\C\<' . expand('<cword>') . '\>'<CR>:let v:searchforward=0<CR>n
+    nnoremap <silent> g* :let @/='\C'   . expand('<cword>')       <CR>:let v:searchforward=1<CR>n
+    nnoremap <silent> g# :let @/='\C'   . expand('<cword>')       <CR>:let v:searchforward=0<CR>n
+]])
 
 -- Display Tab and Eol chars
 vim.opt.list = true
